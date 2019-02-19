@@ -50,4 +50,4 @@ plt.plot(x,x2)
 plt.plot(x,x3)
 plt.axis([0,5,0,1.2])
 plt.savefig('comovingvolume.png',dpi=80)
-plt.show();
+#plt.show();
