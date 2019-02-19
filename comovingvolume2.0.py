@@ -13,8 +13,8 @@ def dV(z):
 	entries = np.rint(z*100+1).astype(int)
 	k = entries-1
 	E=(omegaM*(1+z)**3+omegaK*(1+z)**2+omegaL)**.5;
-	answerAndError=[quad(inverseE,0,c) for c in np.arange(0,z,.01)]
-	dC=[answerAndError[i][0] for i in range(0,k)]
+	answerAndError=[quad(inverseE,0,c) for c in np.arange(0,z+.01,.01)]
+	dC=[answerAndError[i][0] for i in range(0,entries)]
 	dC[0]=0
 	if omegaK>0:
 		dM=math.sinh((omegaK**.5)*dC[k])/(omegaK**.5);
@@ -49,6 +49,5 @@ plt.plot(x,x1)
 plt.plot(x,x2)
 plt.plot(x,x3)
 plt.axis([0,5,0,1.2])
-
-plt.show();
 plt.savefig('comovingvolume.png',dpi=80)
+plt.show();
