@@ -51,7 +51,7 @@ while run<3:
 		x3=[dV(a) for a in x]
 	run+=1
 '''
-
+ofile=open("cosmovar_measures.txt","w")
 z1=np.arange(0,2,.1)
 z11=np.arange(0,2.1,.1)
 z2=np.arange(0,2,.2)
@@ -64,15 +64,22 @@ volumeslices3=[V(z33[i],z33[i+1]) for i in range(len(z33)-1)]
 cv=[219.7 - 52.4 * math.log(volumeslices[i],10) + 3.21*math.log(volumeslices[i],10)**2 for i in range(len(volumeslices))]
 cv2=[219.7 - 52.4 * math.log(volumeslices2[i],10) + 3.21*math.log(volumeslices2[i],10)**2 for i in range(len(volumeslices2))]
 cv3=[219.7 - 52.4 * math.log(volumeslices3[i],10) + 3.21*math.log(volumeslices3[i],10)**2 for i in range(len(volumeslices3))]
+
+for item in cv2:
+	ofile.write("%f\r\n" % item)
+
+ofile.close()
+
 #plt.plot(x,x1)
 #plt.plot(x,x2)
 #plt.plot(x,x3)
 #plt.axis([0,5,0,1.2])
-plt.scatter(z1,cv,c='blue')
-plt.scatter(z2,cv2,c='red')
-plt.scatter(z3,cv3,c='green')
-plt.title("Cosmic Variance of Various Redshift Bins")
-plt.xlabel("Redshift Bins BLUE=.1 RED=.2 GREEN=.3")
-plt.ylabel("Cosmic Variance in %")
-plt.savefig('cosmo6.png',dpi=80)
+#plt.scatter(z1,cv,c='blue')
+#plt.scatter(z2,cv2,c='red')
+#plt.scatter(z3,cv3,c='green')
+#plt.title("Cosmic Variance of Various Redshift Bins")
+#plt.xlabel("Redshift Bins BLUE=.1 RED=.2 GREEN=.3")
+#plt.ylabel("Cosmic Variance in %")
+
+#plt.savefig('cosmo6.png',dpi=80)
 #plt.show();
