@@ -52,6 +52,27 @@ while run<3:
 	run+=1
 '''
 ofile=open("cosmovar_measures.txt","w")
+ifile=open("cosmovaroutput.txt")
+indata=np.loadtxt(ifile, delimiter='  ')
+ifile.close()
+sigmadm=[]
+sigma85=[]
+sigma90=[]
+sigma95=[]
+sigma100=[]
+sigma105=[]
+sigma110=[]
+i=0
+while i<10:
+	sigmadm.append(indata[i][2])
+	sigma85.append(indata[i][3])
+	sigma90.append(indata[i][4])
+	sigma95.append(indata[i][5])
+	sigma100.append(indata[i][6])
+	sigma105.append(indata[i][7])
+	sigma110.append(indata[i][8])
+	i+=1
+
 z1=np.arange(0,2,.1)
 z11=np.arange(0,2.1,.1)
 z2=np.arange(0,2,.2)
@@ -65,21 +86,36 @@ cv=[219.7 - 52.4 * math.log(volumeslices[i],10) + 3.21*math.log(volumeslices[i],
 cv2=[219.7 - 52.4 * math.log(volumeslices2[i],10) + 3.21*math.log(volumeslices2[i],10)**2 for i in range(len(volumeslices2))]
 cv3=[219.7 - 52.4 * math.log(volumeslices3[i],10) + 3.21*math.log(volumeslices3[i],10)**2 for i in range(len(volumeslices3))]
 
-for item in cv2:
-	ofile.write("%f\r\n" % item)
+normal=cv2[0]/sigma95[0]
+sigmadm=[sigmadm[i]*normal for i in range(len(sigmadm))]
+sigma85=[sigma85[i]*normal for i in range(len(sigma85))]
+sigma90=[sigma90[i]*normal for i in range(len(sigma90))]
+sigma95=[sigma95[i]*normal for i in range(len(sigma95))]
+sigma100=[sigma100[i]*normal for i in range(len(sigma100))]
+sigma105=[sigma105[i]*normal for i in range(len(sigma105))]
+sigma110=[sigma110[i]*normal for i in range(len(sigma110))]
 
-ofile.close()
+#for item in cv2:
+#	ofile.write("%f\r\n" % item)
+
+#ofile.close()
 
 #plt.plot(x,x1)
 #plt.plot(x,x2)
 #plt.plot(x,x3)
 #plt.axis([0,5,0,1.2])
 #plt.scatter(z1,cv,c='blue')
-#plt.scatter(z2,cv2,c='red')
+plt.scatter(z2,cv2,c='red')
+plt.scatter(z2,sigmadm,c='#dc4806')
+plt.scatter(z2,sigma85,c='magenta')
+plt.scatter(z2,sigma90,c='cyan')
+plt.scatter(z2,sigma95,c='yellow')
+plt.scatter(z2,sigma100,c='black')
+plt.scatter(z2,sigma105,c='green')
+plt.scatter(z2,sigma110,c='#6f0c4f')
 #plt.scatter(z3,cv3,c='green')
-#plt.title("Cosmic Variance of Various Redshift Bins")
-#plt.xlabel("Redshift Bins BLUE=.1 RED=.2 GREEN=.3")
-#plt.ylabel("Cosmic Variance in %")
-
-#plt.savefig('cosmo6.png',dpi=80)
+plt.title("Comparing cosmic variance measures. 0<z<2, dz=.2")
+plt.xlabel("Redshift Bins, red-Driver paper, orange-dm, magenta-85, cyan-90, yellow-95, black-100, green-105, purple-110")
+plt.ylabel("Cosmic Variance")
+plt.savefig('cosmocompare1.png',dpi=120)
 #plt.show();
